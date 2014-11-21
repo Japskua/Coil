@@ -5,7 +5,9 @@
  * @author Hakim El Hattab (http://hakim.se)
  */
 var Coil = (function(){
-	
+
+	this.gamecloud = null;
+
 	// Target framerate 
 	var FRAMERATE = 60;
 		
@@ -154,6 +156,9 @@ var Coil = (function(){
 	 * 
 	 */
 	function initialize() {
+		// Initialize Gamecloud
+		this.gamecloud = new Gamecloud();
+
 		// Run selectors and cache element references
 		container = $( '#game' );
 		menu = $( '#menu');
@@ -365,6 +370,9 @@ var Coil = (function(){
 	}
 	
 	function start() {
+
+		// Get the gamecloud username
+		this.gamecloud.initializeUserId();
 		reset();
 		
 		timeStart = Date.now();
@@ -384,6 +392,11 @@ var Coil = (function(){
 	}
 	
 	function stop() {
+		// trigger game over event
+		this.gamecloud.triggersEvent("noauth",
+			new Events()._gameOverEvent,
+			this.gamecloud.getUserId(),
+			this.gamecloud.getUserId() + "CoilChar");
 		scorePanel.style.display = 'block';
 		scorePanel.querySelector( 'p' ).innerHTML = Math.floor( score );
 		
@@ -392,6 +405,12 @@ var Coil = (function(){
 	}
 	
 	function reset() {
+
+		// Trigger a new game event
+		this.gamecloud.triggersEvent("noauth",
+			new Events()._newGameEvent,
+			this.gamecloud.getUserId(),
+			this.gamecloud.getUserId() + "CoilChar");
 		player = new Player();
 		player.x = mouse.x;
 		player.y = mouse.y;
@@ -1164,7 +1183,11 @@ var Coil = (function(){
 	 * Invoked when an enemy dies of age.
 	 */
 	function handleEnemyDeath( entity ) {
-		console.log("Enemy died of age");
+		// Trigger an enemy died of age event
+		this.gamecloud.triggersEvent("noauth",
+			new Events()._enemyDiedOfAgeEvent,
+			this.gamecloud.getUserId(),
+			this.gamecloud.getUserId() + "CoilChar");
 		player.adjustEnergy( ENERGY_PER_ENEMY_DEATH );
 		multiplier.reset();
 		
@@ -1179,7 +1202,11 @@ var Coil = (function(){
 	 * Invoked when a bomb dies of age.
 	 */
 	function handleBombDeath( entity ) {
-		console.log("Bomb Died of Age");
+		// Trigger a bomb died of age event
+		this.gamecloud.triggersEvent("noauth",
+			new Events()._bombDiedOfAgeEvent,
+			this.gamecloud.getUserId(),
+			this.gamecloud.getUserId() + "CoilChar");
 		entity.alphaTarget = 0;
 		entity.scaleTarget = 0.01;
 	}
@@ -1188,7 +1215,11 @@ var Coil = (function(){
 	 * Invoked when an enemy has been enclosed.
 	 */
 	function handleEnemyInClosure( entity ) {
-		console.log("Enemy enclosed");
+		// Trigger a enemy enclosed event
+		this.gamecloud.triggersEvent("noauth",
+			new Events()._encloseEnemyEvent,
+			this.gamecloud.getUserId(),
+			this.gamecloud.getUserId() + "CoilChar");
 		player.adjustEnergy( ENERGY_PER_ENEMY_ENCLOSED );
 		
 		var mb = multiplier.major;
@@ -1214,7 +1245,11 @@ var Coil = (function(){
 	 * Invoked when a bomb has been enclosed.
 	 */
 	function handleBombInClosure( entity ) {
-		console.log("Bomb enclosed");
+		// Trigger a bomb enclosed event
+		this.gamecloud.triggersEvent("noauth",
+			new Events()._encloseBombEvent,
+			this.gamecloud.getUserId(),
+			this.gamecloud.getUserId() + "CoilChar");
 		player.adjustEnergy( ENERGY_PER_BOMB_ENCLOSED );
 		multiplier.reset();
 		
@@ -1358,7 +1393,6 @@ Entity.prototype = new Point();
  * Player entity.
  */
 function Player() {
-	console.log("Game Started!");
 	this.trail = [];
 	this.size = 8;
 	this.length = 45;

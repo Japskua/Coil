@@ -14,8 +14,27 @@ var SERVER_ADDRESS = Config.gamecloudAddress;
  */
 function Gamecloud() {
     this.session = "";
+    this.userId = "";
+
     this.initializeSession();
 }
+
+Gamecloud.prototype.initializeUserId = function() {
+    var userId = $('#gamecloud-username').text();
+    if ((userId === undefined) || (userId === "username")) {
+        userId = "User" + moment().format().toString();
+    }
+    // And add the ex: prefix
+    this.userId = "ex:" + userId;
+};
+
+Gamecloud.prototype.getUserId = function() {
+    if(this.userId === "") {
+        this.initializeUserId();
+    }
+
+    return this.userId;
+};
 
 /**
  * Initializes the session

@@ -19,14 +19,14 @@ var WebGLUtil = {
 	    {
 			var infoLog = gl.getShaderInfoLog(vs);
 			gl.deleteProgram( program );
-			alert( "VS ERROR: " + infoLog );
+			//alert( "VS ERROR: " + infoLog );
 	    }
 	
 	    if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS))
 		{
 			var infoLog = gl.getShaderInfoLog(fs);
 			gl.deleteProgram( program );
-			alert( "FS ERROR: " + infoLog );
+			//alert( "FS ERROR: " + infoLog );
 	    }
 	
 	    gl.attachShader(program, vs);
