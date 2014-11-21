@@ -2,4 +2,4 @@
 .svn
 log/*.log
 tmp/**
-
+.idea

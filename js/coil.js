@@ -1164,6 +1164,7 @@ var Coil = (function(){
 	 * Invoked when an enemy dies of age.
 	 */
 	function handleEnemyDeath( entity ) {
+		console.log("Enemy died of age");
 		player.adjustEnergy( ENERGY_PER_ENEMY_DEATH );
 		multiplier.reset();
 		
@@ -1178,6 +1179,7 @@ var Coil = (function(){
 	 * Invoked when a bomb dies of age.
 	 */
 	function handleBombDeath( entity ) {
+		console.log("Bomb Died of Age");
 		entity.alphaTarget = 0;
 		entity.scaleTarget = 0.01;
 	}
@@ -1186,6 +1188,7 @@ var Coil = (function(){
 	 * Invoked when an enemy has been enclosed.
 	 */
 	function handleEnemyInClosure( entity ) {
+		console.log("Enemy enclosed");
 		player.adjustEnergy( ENERGY_PER_ENEMY_ENCLOSED );
 		
 		var mb = multiplier.major;
@@ -1211,6 +1214,7 @@ var Coil = (function(){
 	 * Invoked when a bomb has been enclosed.
 	 */
 	function handleBombInClosure( entity ) {
+		console.log("Bomb enclosed");
 		player.adjustEnergy( ENERGY_PER_BOMB_ENCLOSED );
 		multiplier.reset();
 		
@@ -1354,6 +1358,7 @@ Entity.prototype = new Point();
  * Player entity.
  */
 function Player() {
+	console.log("Game Started!");
 	this.trail = [];
 	this.size = 8;
 	this.length = 45;

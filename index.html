@@ -11,14 +11,31 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="viewport" content="width = 450">
-		
+
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
         <title>Coil - Use your trail to enclose enemies in this reflex HTML5 game.</title>
         
 		<link href="css/reset.css" rel="stylesheet" media="screen" />
 		<link href="css/main.css" rel="stylesheet" media="screen" />
+
 		
 		<link href='http://fonts.googleapis.com/css?family=Molengo' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+		<script type="text/javascript" src="js/libs/moment.js"></script>
+		<script type="text/javascript" src="js/gamecloud/config.js"></script>
+		<script type="text/javascript" src="js/gamecloud/gamecloud-login-hidable-header.js"></script>
+		<script type="text/javascript" src="js/gamecloud/gamecloud.js"></script>
+
 		
 		<!-- WebGL vertex shader (background effect) -->
 		<script id="vertexShader" type="x-shader/x-vertex">
@@ -138,42 +155,49 @@
 		
     </head>
     <body>
-    	<header>
-    		<h1>Coil</h1>
-    		<span class="header-instruction">Expand for more info.</span>
-    		
-    		<!-- The extra content that can be expanded -->
-    		<div class="extra">
-	    		
-    			<!-- Description of the experiment -->
-    			<section id="about">
-    				<h3>About</h3>
-	    			<p>
-						Coil is an addictive HTML5 canvas game where you<br>
-						have to defeat your enemies by enclosing them in<br>
-						your trail.
-	    			</p>
-	    			<p class="credits">
-	    				Created by <a href="http://hakim.se/">Hakim El Hattab</a> | <a href="http://twitter.com/hakimel">@hakimel</a>
-    				</p>
-	    		</section>
-	    		
-	    		<!-- Social sharing -->
-	    		<section id="share">
-	    			<h3>Share</h3>
-					<iframe id="facebook-button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fhakim.se%2Fexperiments%2Fhtml5%2Fcoil%2F&layout=box_count&show_faces=false&width=90&action=like&font=arial&colorscheme=light&height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:55px; height:60px;" allowTransparency="true"></iframe> 
-					<div id="retweet-button"> 
-						<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://hakim.se/experiments/html5/coil/" data-text="Use your trail to enclose enemies in this reflex HTML5 game, Coil by @hakimel" data-count="vertical" data-related="hakimel">Tweet</a> 
-						<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script> 
-					</div> 
-					<div id="flattr-button">
-	    				<a class="FlattrButton" style="display:none;" href="http://hakim.se/experiments/html5/coil/"></a>
-	    			</div> 
-	    		</section>
-	    		</section>
-	    		
-    		</div>
-    	</header>
+
+
+	<nav class="navbar navbar-inverse navbar-fixed-top" id="gamecloud-navbar" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<button type="button" id="gamecloud-bar-hide-button" class="btn btn-sm btn-primary">Hide</button>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+
+				<button type="button" id="gamecloud-switch-view-button" class="btn btn-info btn-sm navbar-left">Account Creation</button>
+
+				<div id="gamecloud-login" class="navbar-form navbar-right gamecloud-form">
+					<input type="text" id="gamecloud-login-username" placeholder="Enter Username" name="username">
+					<input type="password" id="gamecloud-login-password" placeholder="Enter Password" name="password">
+					<button type="button" id="gamecloud-login-button" class="btn btn-success">Log In</button>
+				</div>
+
+				<div id="gamecloud-logged" class="navbar-form navbar-right">
+					<label id="gamecloud-username">Username</label>
+					<button type="button" id="gamecloud-logout-button" class="btn btn-danger">Logout</button>
+				</div>
+
+				<div class="navbar-form navbar-right" id="gamecloud-create-account">
+					<input type="text" id="gamecloud-create-username" placeholder="Enter Username">
+					<input type="password" id="gamecloud-create-password" placeholder="Enter Password">
+					<input type="password" id="gamecloud-create-password2" placeholder="Confirm Password">
+					<input type="email" id="gamecloud-create-email" placeholder="Email">
+					<button type="button" id="gamecloud-create-button" class="btn btn-primary">Create Account</button>
+				</div>
+
+			</div><!--/.navbar-collapse -->
+		</div>
+	</nav>
+
+	<div>
+		<button type="button" id="gamecloud-navbar-show-button" class="btn btn-sm btn-primary">Show Navbar</button>
+	</div>
     	
 		<div id="game">
 			<canvas id="effects"></canvas>
@@ -193,8 +217,7 @@
 			</div>
 		</div>
 		
-		<script src="js/libs/jquery-1.6.2.min.js"></script>
-		<script src="js/header.js"></script>
+		<!--<script src="js/libs/jquery-1.6.2.min.js"></script>-->
 		<script src="js/util.js"></script>
 		<script src="js/coil.js"></script>
 		
