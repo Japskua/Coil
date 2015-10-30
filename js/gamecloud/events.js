@@ -23,6 +23,14 @@ var Events = {
         failCircling : "6hsgyt2mup1ra4i"
     },
 
+    giveAchievement : function(achievementName) {
+        var achievement = this._gainAchievementHashes[achievementName];
+        if(!achievement) {
+            throw new Error("Now achievement exists with name:", achievementName);
+        }
+        Gamecloud.giveAchievement("NOAUTH", this._gainAchievementHashes[achievementName], Gamecloud.getUserId(), Gamecloud.getCharacterId());
+    },
+
     checkOwnedAchievementFromGamecloud: function (playerId) {
 
         Gamecloud.hasAchievement("NOAUTH", this._askAschievementHashes.circle10InARow, playerId, function (err, result) {

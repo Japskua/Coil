@@ -6,6 +6,9 @@
  */
 var Coil = (function(){
 
+    // Gamecloud and achievements related stuff
+    var circledInARow = 0;
+
 	// Target framerate 
 	var FRAMERATE = 60;
 		
@@ -156,6 +159,8 @@ var Coil = (function(){
 	function initialize() {
 		// Initialize Gamecloud
 		Gamecloud.initializeSession();
+
+        this.circle10InARow = 0;
 
 		// Run selectors and cache element references
 		container = $( '#game' );
@@ -413,6 +418,8 @@ var Coil = (function(){
 		player = new Player();
 		player.x = mouse.x;
 		player.y = mouse.y;
+
+        this.circle10InARow = 0;
 		
 		notifications = [];
 		intersections = [];
@@ -1188,6 +1195,10 @@ var Coil = (function(){
 			Gamecloud.getUserId(),
 			Gamecloud.getCharacterId());
 		player.adjustEnergy( ENERGY_PER_ENEMY_DEATH );
+        // Give an achievement here
+        Achievements.giveAchievement("failCircling");
+        // Zero the row counter
+        this.circle10InARow = 0;
 		multiplier.reset();
 		
 		emitParticles( '#eeeeee', entity.x, entity.y, 3, 15 );
@@ -1223,6 +1234,15 @@ var Coil = (function(){
 		
 		var mb = multiplier.major;
 		multiplier.increase();
+
+        // Give achievement
+        Achievements.giveAchievement("learnToCircle");
+        // Add to the row of circled in a row
+        this.circle10InARow++;
+
+        if (this.circle10InARow >= 10) {
+            Achievements.giveAchievement("circle10InARow");
+        }
 		
 		// If the multiplier increased by one major point,
 		// highlight this to the user
@@ -1251,6 +1271,9 @@ var Coil = (function(){
 			Gamecloud.getCharacterId());
 		player.adjustEnergy( ENERGY_PER_BOMB_ENCLOSED );
 		multiplier.reset();
+
+        // We enclosed a bomb. Fail
+        this.circle10InARow = 0;
 		
 		notify( ENERGY_PER_BOMB_ENCLOSED+'♥', entity.x, entity.y, 1.2, [230,90,90] );
 		
