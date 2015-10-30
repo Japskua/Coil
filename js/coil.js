@@ -6,8 +6,6 @@
  */
 var Coil = (function(){
 
-	this.gamecloud = null;
-
 	// Target framerate 
 	var FRAMERATE = 60;
 		
@@ -157,7 +155,7 @@ var Coil = (function(){
 	 */
 	function initialize() {
 		// Initialize Gamecloud
-		this.gamecloud = new Gamecloud();
+		Gamecloud.initializeSession();
 
 		// Run selectors and cache element references
 		container = $( '#game' );
@@ -372,7 +370,8 @@ var Coil = (function(){
 	function start() {
 
 		// Get the gamecloud username
-		this.gamecloud.initializeUserId();
+		Gamecloud.initializeUserId();
+		Gamecloud.initializeSession();
 		reset();
 		
 		timeStart = Date.now();
@@ -393,10 +392,10 @@ var Coil = (function(){
 	
 	function stop() {
 		// trigger game over event
-		this.gamecloud.triggersEvent("noauth",
-			new Events()._gameOverEvent,
-			this.gamecloud.getUserId(),
-			this.gamecloud.getUserId() + "CoilChar");
+		Gamecloud.triggersEvent("noauth",
+			Events._gameOverEvent,
+			Gamecloud.getUserId(),
+			Gamecloud.getCharacterId());
 		scorePanel.style.display = 'block';
 		scorePanel.querySelector( 'p' ).innerHTML = Math.floor( score );
 		
@@ -407,10 +406,10 @@ var Coil = (function(){
 	function reset() {
 
 		// Trigger a new game event
-		this.gamecloud.triggersEvent("noauth",
-			new Events()._newGameEvent,
-			this.gamecloud.getUserId(),
-			this.gamecloud.getUserId() + "CoilChar");
+		Gamecloud.triggersEvent("noauth",
+            Events._newGameEvent,
+			Gamecloud.getUserId(),
+			Gamecloud.getCharacterId());
 		player = new Player();
 		player.x = mouse.x;
 		player.y = mouse.y;
@@ -1184,10 +1183,10 @@ var Coil = (function(){
 	 */
 	function handleEnemyDeath( entity ) {
 		// Trigger an enemy died of age event
-		this.gamecloud.triggersEvent("noauth",
-			new Events()._enemyDiedOfAgeEvent,
-			this.gamecloud.getUserId(),
-			this.gamecloud.getUserId() + "CoilChar");
+		Gamecloud.triggersEvent("noauth",
+            Events._enemyDiedOfAgeEvent,
+			Gamecloud.getUserId(),
+			Gamecloud.getCharacterId());
 		player.adjustEnergy( ENERGY_PER_ENEMY_DEATH );
 		multiplier.reset();
 		
@@ -1203,10 +1202,10 @@ var Coil = (function(){
 	 */
 	function handleBombDeath( entity ) {
 		// Trigger a bomb died of age event
-		this.gamecloud.triggersEvent("noauth",
-			new Events()._bombDiedOfAgeEvent,
-			this.gamecloud.getUserId(),
-			this.gamecloud.getUserId() + "CoilChar");
+		Gamecloud.triggersEvent("noauth",
+            Events._bombDiedOfAgeEvent,
+			Gamecloud.getUserId(),
+			Gamecloud.getCharacterId());
 		entity.alphaTarget = 0;
 		entity.scaleTarget = 0.01;
 	}
@@ -1216,10 +1215,10 @@ var Coil = (function(){
 	 */
 	function handleEnemyInClosure( entity ) {
 		// Trigger a enemy enclosed event
-		this.gamecloud.triggersEvent("noauth",
-			new Events()._encloseEnemyEvent,
-			this.gamecloud.getUserId(),
-			this.gamecloud.getUserId() + "CoilChar");
+		Gamecloud.triggersEvent("noauth",
+            Events._encloseEnemyEvent,
+			Gamecloud.getUserId(),
+			Gamecloud.getCharacterId());
 		player.adjustEnergy( ENERGY_PER_ENEMY_ENCLOSED );
 		
 		var mb = multiplier.major;
@@ -1246,10 +1245,10 @@ var Coil = (function(){
 	 */
 	function handleBombInClosure( entity ) {
 		// Trigger a bomb enclosed event
-		this.gamecloud.triggersEvent("noauth",
-			new Events()._encloseBombEvent,
-			this.gamecloud.getUserId(),
-			this.gamecloud.getUserId() + "CoilChar");
+		Gamecloud.triggersEvent("noauth",
+            Events._encloseBombEvent,
+			Gamecloud.getUserId(),
+			Gamecloud.getCharacterId());
 		player.adjustEnergy( ENERGY_PER_BOMB_ENCLOSED );
 		multiplier.reset();
 		
