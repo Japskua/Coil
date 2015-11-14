@@ -4,23 +4,23 @@
  */
 var Events = {
 
-    _bombDiedOfAgeEvent: "6kpvqowyeaznz5mi",
-    _enemyDiedOfAgeEvent: "e5ceavxweub7f1or",
-    _encloseEnemyEvent: "xinfx1xg5ijm7vi",
-    _encloseBombEvent: "iwomvwge89yeqaor",
-    _newGameEvent: "nuybavb231w3tyb9",
-    _gameOverEvent: "6w47ayd620529",
+    _bombDiedOfAgeEvent: "p4vosb6c9b92uik9",
+    _enemyDiedOfAgeEvent: "l47tsmfcwje89f6r",
+    _encloseEnemyEvent: "ehvlmvhdlw2hjjor",
+    _encloseBombEvent: "97lvg2jus9mdvx6r",
+    _newGameEvent: "5gru292wpuo3l3di",
+    _gameOverEvent: "gvfvg4ngr6swcdi",
 
     _gainAchievementHashes : {
-        "circle10InARow" : "4lvhae9lkqql4n29",
-        "learnToCircle" : "3dykka9hui35wmi",
-        "failCircling" : "xji1jc7zoqx5hfr"
+        "circle10InARow" : "9wn6eu458bqhbyb9",
+        "learnToCircle" : "hgbs2l4lq71ra4i",
+        "failCircling" : "zlb8l4ancgcik9"
     },
 
     _askAschievementHashes : {
-        circle10InARow : "pbob1dmxnm31sjor",
-        learnToCircle : "paw37z1uhoe3tyb9",
-        failCircling : "6hsgyt2mup1ra4i"
+        circle10InARow : "friaxzeqw4tjra4i",
+        learnToCircle : "6xaw16kjfcu9pb9",
+        failCircling : "vy7fczgadzjgu8fr"
     },
 
     giveAchievement : function(achievementName) {
